@@ -14,7 +14,8 @@ This README will guide you through setting up a basic Blazor application using .
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) installed on your machine.
 - SQL Server or an equivalent database service.
 - Basic understanding of Blazor and .NET concepts.
-
+  
+![Logo](7.png)  
 ### Setting Up a Basic Blazor App
 
 1. **Create a new Blazor project:**
@@ -22,7 +23,7 @@ This README will guide you through setting up a basic Blazor application using .
   - Search Blazor Web App 
   - Select projectlocation and create project.
   
-![Logo](4.png)
+![Logo](1.png)
 
 2. **Install SQL Server Packages:**
 
@@ -78,3 +79,6 @@ This setup guide helps you get started with a Blazor application using .NET 8 an
     `````
 
     ## And you are good to go :)
+
+    ![Logo](2.png)
+    ![Logo](3.png)
