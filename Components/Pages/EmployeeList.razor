@@ -1,0 +1,72 @@
+﻿@page "/employees"
+@using BlazorApp.Database
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components
+@inject EmployeeDbContext DbContext
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Employee List</PageTitle>
+
+<h3>Employee List</h3>
+
+@if (employees == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Job Title</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in employees)
+            {
+                <tr>
+                    <td>@employee.EmployeeId</td>
+                    <td>@employee.EmployeeName</td>
+                    <td>@employee.JobTitle</td>
+                    <td>@employee.Age</td>
+                    <td>@employee.Gender</td>
+                    <td>
+                        <button @onclick="() => ShowEditModal(employee)" class="btn btn-primary">Update</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<UpdateModal @ref="updateModal" CurrentEmployee="currentEmployee" OnEmployeeUpdated="HandleEmployeeUpdated" />
+
+@code {
+    private List<Employee> employees;
+    private Employee currentEmployee;
+    private UpdateModal updateModal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await DbContext.Employees.ToListAsync();
+    }
+
+    private async Task ShowEditModal(Employee employee)
+    {
+        currentEmployee = employee;
+        await JSRuntime.InvokeVoidAsync("updateModal.show");
+    }
+
+    private async Task HandleEmployeeUpdated(Employee updatedEmployee)
+    {
+        DbContext.Employees.Update(updatedEmployee);
+        await DbContext.SaveChangesAsync();
+        employees = await DbContext.Employees.ToListAsync();
+        await JSRuntime.InvokeVoidAsync("updateModal.hide");
+    }
+}
